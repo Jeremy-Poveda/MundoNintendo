@@ -1,4 +1,5 @@
 <?php
+// Aporte Jeremy Poveda
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: access");
 header("Access-Control-Allow-Methods: GET,POST");
@@ -9,7 +10,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $server = "localhost"; 
 $user = "root"; 
 $password = ""; 
-$database = "mundonintendo";
+$database = "mundo_nintendo";
 
 $conexionBD = new mysqli($server, $user, $password, $database);
 
@@ -17,6 +18,7 @@ $conexionBD = new mysqli($server, $user, $password, $database);
 if ($conexionBD->connect_error) {
     die("Conexión fallida: " . $conexionBD->connect_error);
 }
+
 
 // Consulta todos los productos de la base de datos.
 if (isset($_GET["findAll"])) {
@@ -30,4 +32,5 @@ if (isset($_GET["findAll"])) {
         echo json_encode(["success" => 0]);
     }
 }
+// Fin de aporte Jeremy Poveda
 ?>
