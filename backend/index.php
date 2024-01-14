@@ -33,4 +33,37 @@ if (isset($_GET["findAll"])) {
     }
 }
 // Fin de aporte Jeremy Poveda
+
+// Aporte Jorge Mawyin
+/*
+// Este código sirve para obtener el rango de precio cuando se haga el front end y se soliciten los datos al usuario por medio de un formulario
+if (isset($_GET["findByPriceRange"])) {
+    if (isset($_GET["minPrice"])) {
+        $minPrice = floatval($_GET["minPrice"]);
+    } else {
+        $minPrice = 0;
+    }
+    
+    if (isset($_GET["maxPrice"])) {
+        $maxPrice = floatval($_GET["maxPrice"]);
+    } else {
+        $maxPrice = PHP_FLOAT_MAX;
+   }
+*/
+    // Estas 2 líneas son para obtener el valor del precio mínimo y máximo a través de la url
+    $minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : null;
+    $maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : null;
+
+    $sqlProductsByPrice = mysqli_query($conexionBD, "SELECT * FROM productos WHERE precio BETWEEN $minPrice AND $maxPrice");
+
+    if (mysqli_num_rows($sqlProductsByPrice) > 0) {
+        $sqlProductsByPrice = mysqli_fetch_all($sqlProductsByPrice, MYSQLI_ASSOC);
+        echo json_encode($sqlProductsByPrice);
+        exit();
+    } else {
+        echo json_encode(["success" => 0, "message" => "No se encontraron productos en el rango de precios especificado."]);
+    }
+//}
+// Fin de aporte Jorge Mawyin
+
 ?>
