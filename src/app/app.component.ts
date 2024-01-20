@@ -6,6 +6,7 @@ import { IndexComponent } from './pages/index/index.component';
 import { VideojuegosComponent } from './pages/videojuegos/videojuegos.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 
+
 @Component({
   selector: 'app-root',
   standalone: true,

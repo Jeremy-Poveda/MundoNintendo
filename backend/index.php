@@ -43,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
 
     // Obtener los valores del JSON
-    $nombre = $data['nombre_videojuego'];
-    $descripcion = $data['descripcion_videojuego'];
+    $nombre = $data['nombre'];
+    $descripcion = $data['descripcion'];
     $precio = $data['precio'];
     $detalles = $data['detalles'];
     $tipo = $data['tipo'];
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $genero = $data['genero'];
     $url_imagen = $data['url_imagen'];
 
-    $insertQuery = "INSERT INTO productos (nombre_videojuego, descripcion_videojuego, precio, detalles, tipo, cantidad, genero, url_imagen)
+    $insertQuery = "INSERT INTO productos (nombre, descripcion, precio, detalles, tipo, cantidad, genero, url_imagen)
                     VALUES ('$nombre', '$descripcion', $precio, '$detalles', '$tipo', $cantidad, '$genero', '$url_imagen')";
 
     if (mysqli_query($conexionBD, $insertQuery)) {
