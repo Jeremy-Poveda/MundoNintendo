@@ -1,0 +1,53 @@
+main {
+    display: flex;
+    margin: 0% 3% 0% 3%;
+}
+
+#name-page {
+    display: flex;
+    font-family: "Montserrat", sans-serif;
+    background-color: var(--acento-gris);
+    margin: 0% 3% 0% 3%;
+    height: 30px;
+}
+#name-page p {
+    padding: 0.3em 0  0 1em;
+    font-weight: 300;
+    color: var(--acento-azul-oscuro);
+}
+
+#filters {
+    width: 20%;
+    padding: 20px 0px;
+}
+
+.filter {
+    width: 100%;
+    border: 2px solid var(--acento-azul-oscuro); 
+    padding: 10px; 
+    margin-bottom: 10px; 
+
+}
+.filter h3{
+    font-weight: 500;
+    font-size: 22px;
+}
+
+.filter-options {
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+}
+.filter-option{
+    font-weight: 300;
+    margin-bottom: 20px; 
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+#products {
+    width: 80%; 
+    padding: 20px;
+}

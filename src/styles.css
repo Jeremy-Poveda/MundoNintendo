@@ -1,6 +1,7 @@
 :root {
     --acento-turqueza: #468189;
     --acento-azul-oscuro: #031926;
+    --acento-gris: #C3C3C3;
 }
 
 * {
@@ -10,6 +11,8 @@
     outline: 0;
     font-size: 100%;
     vertical-align: baseline;
+    font-weight: 900;
+    font-family: "Montserrat";
 }
 body{
     background-color: #F2F2F2;
