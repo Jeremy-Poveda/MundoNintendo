@@ -4,7 +4,7 @@ USE mundo_nintendo;
 
 -- Tabla productos
 CREATE TABLE IF NOT EXISTS productos (
-    id INT AUTO_INCREproductosMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nombre_videojuego VARCHAR(255) NOT NULL,
     descripcion_videojuego VARCHAR(200),
     precio DECIMAL(10, 2) NOT NULL, -- 10 Números a la izquierda, y 2 decimales.
