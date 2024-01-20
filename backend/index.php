@@ -19,8 +19,7 @@ if ($conexionBD->connect_error) {
     die("Conexión fallida: " . $conexionBD->connect_error);
 }
 
-
-// Consulta todos los productos de la base de datos.
+// Consulta todos los items de la tabla solicitada de la base de datos.
 if (isset($_GET["findAll"])) {
     $sqlProductos = mysqli_query($conexionBD, "SELECT * FROM productos");
     if (mysqli_num_rows($sqlProductos) > 0) {
@@ -36,77 +35,83 @@ if (isset($_GET["findAll"])) {
 
 
 // Aporte Kevin Roldan
-// Obtener productos por tipo
-if (isset($_GET["findByType"])) {
-    $tipo = $_GET["findByType"];
-    $sqlProductosTipo = mysqli_query($conexionBD, "SELECT * FROM productos WHERE tipo = '$tipo'");
-    if (mysqli_num_rows($sqlProductosTipo) > 0) {
-        $productosTipo = mysqli_fetch_all($sqlProductosTipo, MYSQLI_ASSOC);
-        echo json_encode($productosTipo);
-        exit();
-    } else {
-        echo json_encode(["success" => 0, "message" => "No se encontraron productos del tipo '$tipo'"]);
-        exit();
-    }
-}
 
-// Manejar solicitud POST para agregar un nuevo producto
+
+// Manejar solicitud POST para agregar un nuevo item en la tabla como primer argumento del JSON
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
     $data = json_decode(file_get_contents('php://input'), true);
 
-    $nombre = $data['nombre_producto'];
-    $descripcion = $data['descripcion_producto'];
+    // Obtener los valores del JSON
+    $nombre = $data['nombre_videojuego'];
+    $descripcion = $data['descripcion_videojuego'];
     $precio = $data['precio'];
     $detalles = $data['detalles'];
     $tipo = $data['tipo'];
     $cantidad = $data['cantidad'];
+    $genero = $data['genero'];
+    $url_imagen = $data['url_imagen'];
 
-    $insertQuery = "INSERT INTO productos (nombre_producto, descripcion_producto, precio, detalles, tipo, cantidad)
-                    VALUES ('$nombre', '$descripcion', $precio, '$detalles', '$tipo', $cantidad)";
+    $insertQuery = "INSERT INTO productos (nombre_videojuego, descripcion_videojuego, precio, detalles, tipo, cantidad, genero, url_imagen)
+                    VALUES ('$nombre', '$descripcion', $precio, '$detalles', '$tipo', $cantidad, '$genero', '$url_imagen')";
 
     if (mysqli_query($conexionBD, $insertQuery)) {
         echo json_encode(["success" => 1, "message" => "Producto agregado correctamente"]);
     } else {
         echo json_encode(["success" => 0, "message" => "Error al agregar el producto"]);
     }
+
     exit();
 }
 
 
-// Fin de aporte Kevin Roldan
 
+
+
+// Obtener productos por tipo y/o rango de precio
+
+if (isset($_GET["findByType"]) || isset($_GET["findByPriceRange"])) {
+    $sqlConditions = [];
+    
+    // Verificar si se está filtrando por tipo
+    if (isset($_GET["findByType"])) {
+        $tipo = $_GET["findByType"];
+        $sqlConditions[] = "tipo = '$tipo'";
+    }
+// Fin de aporte Kevin Roldán
 
 // Aporte Jorge Mawyin
+    // Verificar si se está filtrando por rango de precio
+    if (isset($_GET["findByPriceRange"])) {
+        $minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : null;
+        $maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : null;
 
-// Este código sirve para obtener el rango de precio cuando se haga el front end y se soliciten los datos al usuario por medio de un formulario
-if (isset($_GET["findByPriceRange"])) {
-    /*
-    if (isset($_GET["minPrice"])) {
-        $minPrice = floatval($_GET["minPrice"]);
-    } else {
-        $minPrice = 0;
+        $sqlConditions[] = "precio BETWEEN $minPrice AND $maxPrice";
     }
+
+    // Construir la consulta SQL con las condiciones
+    $sqlQuery = "SELECT * FROM productos";
     
-    if (isset($_GET["maxPrice"])) {
-        $maxPrice = floatval($_GET["maxPrice"]);
+    if (!empty($sqlConditions)) {
+        $sqlQuery .= " WHERE " . implode(" AND ", $sqlConditions);
+    }
+
+    // Ejecutar la consulta SQL
+    $result = mysqli_query($conexionBD, $sqlQuery);
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            $productos = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            echo json_encode($productos);
+            exit();
+        } else {
+            echo json_encode(["success" => 0, "message" => "No se encontraron productos con los filtros especificados."]);
+            exit();
+        }
     } else {
-        $maxPrice = PHP_FLOAT_MAX;
-   }
-*/
-    // Estas 2 líneas son para obtener el valor del precio mínimo y máximo a través de la url
-    $minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : null;
-    $maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : null;
-
-    $sqlProductsByPrice = mysqli_query($conexionBD, "SELECT * FROM productos WHERE precio BETWEEN $minPrice AND $maxPrice");
-
-    if (mysqli_num_rows($sqlProductsByPrice) > 0) {
-        $sqlProductsByPrice = mysqli_fetch_all($sqlProductsByPrice, MYSQLI_ASSOC);
-        echo json_encode($sqlProductsByPrice);
+        echo json_encode(["success" => 0, "message" => "Error en la consulta SQL"]);
         exit();
-    } else {
-        echo json_encode(["success" => 0, "message" => "No se encontraron productos en el rango de precios especificado."]);
     }
 }
 // Fin de aporte Jorge Mawyin
-
 ?>
