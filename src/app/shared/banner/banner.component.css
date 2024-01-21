@@ -1,4 +1,3 @@
-/* Establece un estilo para el cuerpo de la página */
 body {
     margin: 0;
     padding: 0;
@@ -20,7 +19,7 @@ body {
     object-fit: cover;
 }
 
-/* Container Styles */
+
 .container {
   width: 100%;
   max-width: 1700px;
@@ -32,7 +31,7 @@ body {
   margin-bottom: 2rem;
 }
   
-  /* Search Bar Styles */
+
   
   .search-bar {
     width: 566px;
@@ -71,7 +70,7 @@ body {
     fill: white;
   }
   
-  /* Logo Styles */
+
   .logo {
     width: 353px;
     height: 59.72px;
@@ -139,8 +138,7 @@ body {
     font-weight: 800;
     word-wrap: break-word;
   }
-  
-  /* User Info Styles */
+ 
   .user-info {
     left: 1165px;
     top: 37px;
@@ -152,7 +150,6 @@ body {
     word-wrap: break-word;
   }
   
-  /* Cart Info Styles */
   .cart-info {
     left: 1496px;
     top: 35px;
@@ -164,7 +161,6 @@ body {
     word-wrap: break-word;
   }
   
-  /* Other Text Styles */
   .welcome-text {
     left: 1152px;
     top: 8px;
@@ -176,7 +172,6 @@ body {
     word-wrap: break-word;
   }
   
-  /* Profile Icons Styles */
   .profile-icon {
     width: 59px;
     height: 59px;
@@ -195,7 +190,6 @@ body {
     border-radius: 9999px;
   }
   
-  /* Cart Icon Styles */
   .cart-icon {
     width: 61px;
     height: 61px;
@@ -216,7 +210,6 @@ body {
   }
 
   .cart-text {
-    /* Estilos del texto "CARRITO" */
     left: 1481px;
     top: 10px;
     position: absolute;
@@ -250,10 +243,9 @@ body {
     display: block;
 }
 
-/* Responsive Styles */
 @media only screen and (max-width: 768px) {
     .mario-div {
-        text-align: center; /* Center the content on smaller screens */
+        text-align: center; 
     }
 
     .mario-div > .box {
