@@ -9,7 +9,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // Conexión con la mini-base de datos
 $server = "localhost"; 
 $user = "root"; 
-$password = ""; 
+$password = "root"; 
 $database = "mundo_nintendo";
 
 $conexionBD = new mysqli($server, $user, $password, $database);

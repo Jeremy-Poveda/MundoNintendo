@@ -1,1 +1,49 @@
-<p>Parte de Jorge</p>
+<section id="best-sellers">
+    <div class="best-sellers-container">
+        <div class="header">LO MÁS VENDIDO</div>
+        <div class="view-more"><a routerLink="/videojuegos">Ver más</a></div>
+        <div class="product-list">
+            <div *ngFor="let product of bestSellers" class="product-item">
+                <div class="product-bg"></div>
+                <div class="price">{{ product.precio | currency: 'USD' }}</div>
+                <img [src]="product.url_imagen" [alt]="product.nombre" class="product-image" />
+                <div class="product-name">{{ product.nombre }}</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="new-products">
+    <div class="new-products-container">
+        <div class="header">NOVEDADES</div>
+        <div class="view-more"><a routerLink="/videojuegos">Ver más</a></div>
+        <div class="product-list">
+            <div *ngFor="let product of newProducts" class="product-item">
+                <div class="product-bg"></div>
+                <div class="price">{{ product.precio | currency: 'USD' }}</div>
+                <img [src]="product.url_imagen" [alt]="product.nombre" class="product-image" />
+                <div class="product-name">{{ product.nombre }}</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="news">
+    <div class="new-products-container">
+        <div class="header">NOTICIAS</div>
+        <div class="view-more"><a href="#">Ver más</a></div>
+        <div class="product-list">
+            <div *ngFor="let noticia of notice" class="card">
+                <div class="card-image">
+                    <img [src]="noticia.urlImagen" alt="Noticia Imagen">
+                </div>
+                <div class="category">{{ noticia.titulo }}</div>
+                <div class="heading">
+                    {{ noticia.descripcion }}
+                    <div class="author">By <span class="name">{{ noticia.autor }}</span> {{ noticia.fechaPublicacion | date:
+                        'medium' }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
