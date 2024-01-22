@@ -7,11 +7,12 @@ import { VideojuegosComponent } from './pages/videojuegos/videojuegos.component'
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { BannerComponent } from './shared/banner/banner.component';
+import { CarritoComponent } from './pages/carrito/carrito.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, IndexComponent, VideojuegosComponent, NavbarComponent, FooterComponent, BannerComponent],
+  imports: [CommonModule, RouterOutlet, IndexComponent, VideojuegosComponent,CarritoComponent, NavbarComponent, FooterComponent, BannerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

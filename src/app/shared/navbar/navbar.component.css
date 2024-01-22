@@ -1,5 +1,7 @@
 
-
+*{
+    font-weight: 900;
+}
 header {
     display: flex;
     justify-content: space-around;

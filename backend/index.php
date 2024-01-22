@@ -13,7 +13,7 @@ $password = "";
 $database = "mundo_nintendo";
 
 $conexionBD = new mysqli($server, $user, $password, $database);
-
+ 
 // Verificar la conexión
 if ($conexionBD->connect_error) {
     die("Conexión fallida: " . $conexionBD->connect_error);

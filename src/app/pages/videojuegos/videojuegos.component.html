@@ -74,15 +74,15 @@
 </main>
 <div class="details" *ngIf="showDetails && selectedProduct !== undefined">
     <div class="details-container">
-        <img id="img-detalles" src="{{selectedProduct?.url_imagen}}">
-        <p id="nombre-text">{{selectedProduct?.nombre}}</p>
-        <p id="desc-text">{{selectedProduct?.descripcion}}</p>
-        <p id="precio-text">Precio unitario: ${{selectedProduct?.precio}}</p>
+        <img id="img-detalles" src="{{selectedProduct.url_imagen}}">
+        <p id="nombre-text">{{selectedProduct.nombre}}</p>
+        <p id="desc-text">{{selectedProduct.descripcion}}</p>
+        <p id="precio-text">Precio unitario: ${{selectedProduct.precio}}</p>
         <h2> Detalles </h2>
         <div *ngFor="let detalle of (selectedProduct.detalles.split(',') || [])">
             <p id="detalles-text">{{detalle.trim()}}</p>
         </div>
-        <button id="addToCart-detalles" (click)="addCart()">
+        <button id="addToCart-detalles" (click)="addCart()" routerLink="/carrito" >
             <img id="cart-icon-detalles" src="../../../assets/img/white-add-cart-icon.png">
             AGREGAR AL CARRITO</button>
         <button id="closeButton-detalles" (click)="closeDetails()">X</button>

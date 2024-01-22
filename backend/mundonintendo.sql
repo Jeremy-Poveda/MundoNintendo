@@ -15,6 +15,43 @@ CREATE TABLE IF NOT EXISTS productos (
     url_imagen VARCHAR(255)
 );
 
+-- Tabla Usuarios
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    correo VARCHAR(100) NOT NULL,
+    contrasena VARCHAR(255) NOT NULL,
+    unique(correo)
+);
+
+-- Tabla Carrito
+CREATE TABLE IF NOT EXISTS carrito (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+	usuario_id int,
+    producto_id int,
+    cantidad int,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (producto_id) REFERENCES productos(id)
+);
+
+
+-- Tabla Historial de create
+CREATE TABLE IF NOT EXISTS historial_compras (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT,
+    producto_id INT,
+    cantidad INT,
+    precio_total DECIMAL(10, 2),
+    fecha_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (producto_id) REFERENCES productos(id)
+);
+
+INSERT INTO usuarios (nombre, correo, contrasena)
+VALUES ('Jorge Mawyin', 'jmawyin@espol.edu.ec', '12345678'),
+('Jeremy Poveda', 'jrpoveda@espol.edu.ec', 'abcdefgh'),
+('Kevin Roldan', 'kroldan@espol.edu.ec', '87654321');
+
 INSERT INTO productos (nombre, descripcion, precio, detalles, cantidad, tipo, genero, url_imagen)
 VALUES
 ('The Legend of Zelda: Breath of the Wild', 'Aventura épica en el reino de Hyrule', 59.99, 'Consola: Nintendo Switch', 100, 'videojuego', 'Aventura', 'https://i.imgur.com/TEmSMxl.png'),

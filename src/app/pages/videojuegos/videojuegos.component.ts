@@ -9,11 +9,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { NgxPaginationModule } from "ngx-pagination";
 
+import { RouterLinkActive, RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-videojuegos',
   standalone: true,
-  imports: [HttpClientModule, CommonModule, NgxPaginationModule],
+  imports: [HttpClientModule, CommonModule, NgxPaginationModule,RouterLinkActive, RouterLink],
   providers: [DataProviderService],
   templateUrl: './videojuegos.component.html',
   styleUrl: './videojuegos.component.css'
