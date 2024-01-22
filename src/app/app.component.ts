@@ -8,11 +8,12 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { BannerComponent } from './shared/banner/banner.component';
 import { CarritoComponent } from './pages/carrito/carrito.component';
+import { DatosPersonalesComponent } from './pages/caja/datos-personales/datos-personales.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, IndexComponent, VideojuegosComponent,CarritoComponent, NavbarComponent, FooterComponent, BannerComponent],
+  imports: [CommonModule, RouterOutlet, IndexComponent, VideojuegosComponent,CarritoComponent, NavbarComponent, FooterComponent, BannerComponent,DatosPersonalesComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

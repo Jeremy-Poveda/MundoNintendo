@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS productos (
     cantidad INT,
     tipo VARCHAR(50),
     genero VARCHAR(50),
-    url_imagen VARCHAR(255)
+    url_imagen VARCHAR(255),
+    fecha_ingreso  DATE
 );
 
 -- Tabla Usuarios
