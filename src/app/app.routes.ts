@@ -13,6 +13,7 @@ export const routes: Routes = [
     { path: '', component: IndexComponent },
     { path: 'videojuegos', component: VideojuegosComponent },
     { path: 'carrito', component: CarritoComponent },
+
     {
         path: 'caja',
         component: CajaComponent,
@@ -24,6 +25,7 @@ export const routes: Routes = [
 
         ]
       },
+
       { path: '**', redirectTo: '' },
 
 ];

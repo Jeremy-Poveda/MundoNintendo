@@ -9,7 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { NgxPaginationModule } from "ngx-pagination";
 
-import { RouterLinkActive, RouterLink } from '@angular/router';
+import { RouterLinkActive, RouterLink,Router } from '@angular/router';
+import { Carrito } from '../../interfaces/carrito';
 
 
 @Component({
@@ -21,14 +22,16 @@ import { RouterLinkActive, RouterLink } from '@angular/router';
   styleUrl: './videojuegos.component.css'
 })
 export class VideojuegosComponent {
+    //simula el id del usuario logeado
+    public userID: number = 1;
   //Atributo con el tipo de dato de la interfaz
   public data : Producto[] = [];
   public page! : number;
-  public selectedProduct?: Producto;
+  public selectedProduct!: Producto;
   minPrice?:number;
   maxPrice?:number;
   showDetails: boolean = false;
-  constructor(private dataProvider: DataProviderService) {
+  constructor(private dataProvider: DataProviderService, private router:Router) {
 
   }
 
@@ -65,6 +68,11 @@ export class VideojuegosComponent {
   }
   addCart(){
     console.log("Logica de Kevin Roldan");
+    var productCart : Carrito= 
+      { id: 1, usuario_id: this.userID, producto_id: this.selectedProduct.id, cantidad:  1}
+     ;
+    this.dataProvider.addToCart(productCart);
+    this.router.navigate(['/carrito']);
   }
 
 }

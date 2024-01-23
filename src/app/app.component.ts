@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 
+import { HttpClientModule } from '@angular/common/http';
+
+
 import { IndexComponent } from './pages/index/index.component';
 import { VideojuegosComponent } from './pages/videojuegos/videojuegos.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
@@ -13,7 +16,7 @@ import { DatosPersonalesComponent } from './pages/caja/datos-personales/datos-pe
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, IndexComponent, VideojuegosComponent,CarritoComponent, NavbarComponent, FooterComponent, BannerComponent,DatosPersonalesComponent],
+  imports: [HttpClientModule,CommonModule, RouterOutlet, IndexComponent, VideojuegosComponent,CarritoComponent, NavbarComponent, FooterComponent, BannerComponent,DatosPersonalesComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

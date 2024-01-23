@@ -13,21 +13,33 @@
       </tr>
     </thead>
     <tbody id="tableBody">
-      <tr>
-        <td>
-          <div class="article_info">
-            <img src="https://i.imgur.com/H5FTg3T.jpg" alt="img" />
-            <div class="article_details">
-              <span class="article_name">The Witcher 3: Wild Hunt</span>
-              <span class="article_type">Consola: Xbox One</span>
+      @for (product of productshop; track $index) {
+        <tr>
+          <td>
+            <div class="article_info">
+              <img src="{{getCorrespondingProduct(product.producto_id)?.url_imagen}}" alt="img" />
+              <div class="article_details">
+                <span class="article_name">{{getCorrespondingProduct(product.producto_id)?.nombre}}</span>
+                <span class="article_type">{{getCorrespondingProduct(product.producto_id)?.detalles}}</span>
+              </div>
             </div>
-          </div>
-        </td>
-        <td><input class="quantity" type="number" value="1" /></td>
-        <td>$<span>12</span></td>
-        <td>$<span>21</span></td>
-        <td><b>$</b><span class="total">65</span></td>
-      </tr>
+          </td>
+          <td><input class="quantity" type="number" value="{{product.cantidad}}" /></td>
+          <td>$<span>{{getSubtotal(product.producto_id,product.cantidad)}}</span></td>
+          <td>$<span>{{getIVA(product.producto_id)}}</span></td>
+          <td><b>$</b><span class="total">{{getTotal(product.producto_id,product.cantidad)}}</span></td>
+        </tr>
+
+      }@empty {
+
+        <tr>
+          <td colspan="5">
+            <div class="empty">Sin productos que mostrar, continue comprando!</div>
+
+          </td>
+        </tr>
+      }
+    
     </tbody>
   </table>
 

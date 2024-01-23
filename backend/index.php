@@ -65,6 +65,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = json_decode(file_get_contents('php://input'), true);
+
+    // Obtener los valores del JSON
+    $usuario_id = $data['usuario_id'];
+    $producto_id = $data['producto_id'];
+    $cantidad = $data['cantidad'];
+
+    // Consulta de inserción
+    $insertQuery = "INSERT INTO carrito (usuario_id, producto_id, cantidad)
+                    VALUES ($usuario_id, $producto_id, $cantidad)";
+
+    if (mysqli_query($conexionBD, $insertQuery)) {
+        echo json_encode(["success" => 1, "message" => "Datos agregados correctamente al carrito"]);
+    } else {
+        echo json_encode(["success" => 0, "message" => "Error al agregar datos al carrito"]);
+    }
+}
+
+
+
+if (isset($_GET["findShoppingCart"])) {
+    $userID = $_GET["findShoppingCart"];
+    $sqlProducts = mysqli_query($conexionBD, "SELECT * FROM carrito WHERE usuario_id = $userID");
+    if (mysqli_num_rows($sqlProducts) > 0) {
+        $products = mysqli_fetch_all($sqlProducts, MYSQLI_ASSOC);
+        echo json_encode($products);
+        exit();
+    } else {
+        echo json_encode(["success" => 0]);
+    }
+
+}
 
 
 
