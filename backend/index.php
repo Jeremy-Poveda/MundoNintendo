@@ -35,43 +35,14 @@ if (isset($_GET["findAll"])) {
 
 
 // Aporte Kevin Roldan
-
-
-// Manejar solicitud POST para agregar un nuevo item en la tabla como primer argumento del JSON
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = json_decode(file_get_contents('php://input'), true);
+
+    // Obtener los valores del JSON
+    $usuario_id = intval($data['usuario_id']);
+    $producto_id = intval($data['producto_id']);
+    $cantidad = intval($data['cantidad']);
     
-    $data = json_decode(file_get_contents('php://input'), true);
-
-    // Obtener los valores del JSON
-    $nombre = $data['nombre'];
-    $descripcion = $data['descripcion'];
-    $precio = $data['precio'];
-    $detalles = $data['detalles'];
-    $tipo = $data['tipo'];
-    $cantidad = $data['cantidad'];
-    $genero = $data['genero'];
-    $url_imagen = $data['url_imagen'];
-
-    $insertQuery = "INSERT INTO productos (nombre, descripcion, precio, detalles, tipo, cantidad, genero, url_imagen)
-                    VALUES ('$nombre', '$descripcion', $precio, '$detalles', '$tipo', $cantidad, '$genero', '$url_imagen')";
-
-    if (mysqli_query($conexionBD, $insertQuery)) {
-        echo json_encode(["success" => 1, "message" => "Producto agregado correctamente"]);
-    } else {
-        echo json_encode(["success" => 0, "message" => "Error al agregar el producto"]);
-    }
-
-    exit();
-}
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents('php://input'), true);
-
-    // Obtener los valores del JSON
-    $usuario_id = $data['usuario_id'];
-    $producto_id = $data['producto_id'];
-    $cantidad = $data['cantidad'];
 
     // Consulta de inserción
     $insertQuery = "INSERT INTO carrito (usuario_id, producto_id, cantidad)
@@ -83,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(["success" => 0, "message" => "Error al agregar datos al carrito"]);
     }
 }
-
 
 
 if (isset($_GET["findShoppingCart"])) {
@@ -101,9 +71,11 @@ if (isset($_GET["findShoppingCart"])) {
 
 
 
+
+
 // Obtener productos por tipo y/o rango de precio
 
-if (isset($_GET["findByType"]) || isset($_GET["findByPriceRange"])) {
+if (isset($_GET["findByID"]) || isset($_GET["findByType"]) || isset($_GET["findByPriceRange"])) {
     $sqlConditions = [];
     
     // Verificar si se está filtrando por tipo
@@ -111,6 +83,13 @@ if (isset($_GET["findByType"]) || isset($_GET["findByPriceRange"])) {
         $tipo = $_GET["findByType"];
         $sqlConditions[] = "tipo = '$tipo'";
     }
+
+if (isset($_GET["findByID"])){
+    $id = $_GET["findByID"];
+    $sqlConditions[] = "id = '$id'";
+
+}
+
 // Fin de aporte Kevin Roldán
 
 // Aporte Jorge Mawyin
@@ -147,4 +126,27 @@ if (isset($_GET["findByType"]) || isset($_GET["findByPriceRange"])) {
     }
 }
 // Fin de aporte Jorge Mawyin
+
+// aporte Kevin Roldán
+
+if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && isset($_GET['usuario_id'])) {
+    // Obtener el usuario_id que se desea eliminar
+    $usuario_id_a_eliminar = $_GET['usuario_id'];
+
+
+    // Sentencia SQL para eliminar los registros relacionados con el usuario_id
+    $deleteQuery = "DELETE FROM carrito WHERE usuario_id = $usuario_id_a_eliminar";
+
+    // Ejecutar la sentencia de eliminación
+    if ($conexionBD->query($deleteQuery) === TRUE) {
+        echo json_encode(["success" => 1, "message" => "Registros eliminados correctamente"]);
+    } else {
+        echo json_encode(["success" => 0, "message" => "Error al eliminar registros: " . $conexionBD->error]);
+    }
+} else {
+    echo json_encode(["success" => 0, "message" => "No se proporcionó el parámetro usuario_id o no se utilizó una solicitud DELETE"]);
+}
+// Fin de aporte Kevin Roldán
+
+n
 ?>
