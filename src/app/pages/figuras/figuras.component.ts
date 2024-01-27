@@ -66,9 +66,17 @@ export class FigurasComponent {
   addCart() {
     console.log("Logica de Kevin Roldan");
     var productCart: Carrito =
-      { id: 1, usuario_id: this.userID, producto_id: this.selectedProduct.id, cantidad: 1 };
-    this.dataProvider.addToCart(productCart);
-    this.router.navigate(['/carrito']);
+      { id: 1, usuario_id: this.userID, producto_id: this.selectedProduct.id, cantidad: 1 }
+      ;
+    this.dataProvider.addToCart(productCart).subscribe(
+      (response: any) => {
+        console.log(response);
+      },
+      (error: any) => {
+        console.error(error);
+        this.router.navigate(['/carrito']);
+      }
+    );
   }
 
 

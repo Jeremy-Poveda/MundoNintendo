@@ -11,7 +11,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DataProviderService {
-  private URL: string = 'http://localhost/api/?';
+  private URLProducts: string = 'http://localhost/api/products.php?';
+  private URLCart: string = 'http://localhost/api/cart.php?';
+
   constructor(private http: HttpClient) { }
   // Obtener productos por rango de precio y/o tipo usando el API
   getProductsByRangeAndType(minPrice?: number, maxPrice?: number, tipo?: string) {
@@ -25,41 +27,39 @@ export class DataProviderService {
       params += `&findByType=${tipo}`;
     }
 
-    return this.http.get(this.URL + params);
+    return this.http.get(this.URLProducts + params);
   }
 
   getAllProducts() {
-    return this.http.get(this.URL + 'findAll');
+    return this.http.get(this.URLProducts + 'findAll');
   }
 
   getShoppingCart(userID:number){
-    return this.http.get(this.URL + `findShoppingCart=${userID}`);
+    return this.http.get(this.URLCart + `findShoppingCart=${userID}`);
   }
 
   getProductByID(productID:number){
-    return this.http.get(this.URL + `findByID=${productID}`);
+    return this.http.get(this.URLProducts + `findByID=${productID}`);
 
   }
+  
   addToCart(productData:Carrito) {
     const data = {
       usuario_id: productData.usuario_id,
       producto_id: productData.producto_id,
       cantidad: productData.cantidad
     };
-  
-    this.http.post(this.URL, JSON.stringify(data)).subscribe(
-      (response: any) => {
-        console.log(response);
-      },
-      (error: any) => {
-        console.error(error);
-      }
-    );
+    return this.http.post(this.URLCart, JSON.stringify(data))
+
   }
 
   clearCart(userID: number): Observable<any> {
-    const url = `${this.URL}usuario_id=${userID}`;
+    const url = `${this.URLCart}usuario_id=${userID}`;
     return this.http.delete(url);
+  }
+
+  updateCart(data:Carrito){
+    return this.http.put(this.URLCart,JSON.stringify(data));
   }
   
 }

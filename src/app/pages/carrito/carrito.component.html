@@ -24,9 +24,9 @@
               </div>
             </div>
           </td>
-          <td><input class="quantity" type="number" value="{{product.cantidad}}" /></td>
+          <td><input class="quantity" min="1" max="{{getCorrespondingProduct(product.producto_id)?.cantidad}}" type="number" value="{{product.cantidad}}" (change)="updateQuantity($event,product.id)" /></td>
           <td>$<span>{{getSubtotal(product.producto_id,product.cantidad)}}</span></td>
-          <td>$<span>{{getIVA(product.producto_id)}}</span></td>
+          <td>$<span>{{getIVA(product.producto_id,product.cantidad)}}</span></td>
           <td><b>$</b><span class="total">{{getTotal(product.producto_id,product.cantidad)}}</span></td>
         </tr>
 
@@ -44,7 +44,7 @@
   </table>
 
   <div class="buttons">
-    <button id="keepBuying" routerLink="/videojuegos">Seguir Comprando</button>
-    <button id="goToCheckout" routerLink="/caja">Ir a La Caja</button>
+    <button id="keepBuying" (click)="keepBuying()" >Seguir Comprando</button>
+    <button id="goToCheckout" (click)="goToCheckout()">Ir a La Caja</button>
   </div>
 </main>

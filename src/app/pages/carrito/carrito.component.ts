@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 //Importación del servicio
@@ -6,7 +5,7 @@ import { DataProviderService } from '../../providers/data-provider.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Producto } from '../../interfaces/producto';
 
-import { RouterLinkActive, RouterLink } from '@angular/router';
+import { RouterLinkActive, RouterLink, Router } from '@angular/router';
 import { Carrito } from '../../interfaces/carrito';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 
@@ -24,7 +23,10 @@ export class CarritoComponent {
   //simula el id del usuario logeado
   public userID: number = 1;
 
-  constructor(private dataProvider: DataProviderService) {
+  constructor(
+    private dataProvider: DataProviderService,
+    private router: Router
+  ) {
     this.dataProvider.getShoppingCart(this.userID).subscribe((cartResponse) => {
       this.productshop = cartResponse as Carrito[];
 
@@ -37,26 +39,51 @@ export class CarritoComponent {
           var res = response as Producto[];
           return res[0];
         });
-        console.log(this.products);
+        //  console.log(this.products);
       });
     });
   }
   getCorrespondingProduct(productID: number): Producto | undefined {
-    console.log(this.products);
-
-    console.log(this.products?.find((product) => product.id === productID));
     return this.products?.find((product) => product.id === productID);
   }
 
   getSubtotal(productID: number, cantidad: number): number {
     var product = this.getCorrespondingProduct(productID);
-    return product ? product.precio * cantidad : 0;
+    return product ? parseFloat((product.precio * cantidad).toFixed(2)) : 0;
   }
-  getIVA(productID: number):number {
-    var product = this.getCorrespondingProduct(productID);
-    return product ? parseFloat((product.precio * 0.12).toFixed(2)) : 0;
+  getIVA(productID: number, cantidad: number): number {
+    return parseFloat(
+      (this.getSubtotal(productID, cantidad) * 0.12).toFixed(2)
+    );
   }
-  getTotal(productID: number, cantidad: number):number {
-    return this.getSubtotal(productID, cantidad) + this.getIVA(productID);
+  getTotal(productID: number, cantidad: number): number {
+    return parseFloat(
+      (
+        this.getSubtotal(productID, cantidad) + this.getIVA(productID, cantidad)
+      ).toFixed(2)
+    );
+  }
+
+  updateQuantity($event: Event, id: number) {
+    var input = $event.target as HTMLInputElement;
+    var product = this.productshop?.find((product) => product.id === id);
+    product!.cantidad = parseInt(input.value);
+  }
+
+  goToCheckout() {
+    this.productshop?.map((cart) =>
+      this.dataProvider.updateCart(cart).subscribe((cartResponse) => {
+        console.log(cartResponse);
+      })
+    );
+    this.router.navigate(['/caja']);
+  }
+  keepBuying() {
+    this.productshop?.map((cart) =>
+      this.dataProvider.updateCart(cart).subscribe((cartResponse) => {
+        console.log(cartResponse);
+      })
+    );
+    this.router.navigate(['/videojuegos']);
   }
 }
