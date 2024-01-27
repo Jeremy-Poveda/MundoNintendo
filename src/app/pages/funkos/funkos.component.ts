@@ -14,14 +14,13 @@ import { Carrito } from '../../interfaces/carrito';
 
 
 @Component({
-  selector: 'app-videojuegos',
+  selector: 'app-funkos',
   standalone: true,
   imports: [HttpClientModule, CommonModule, NgxPaginationModule, RouterLinkActive, RouterLink],
-  providers: [DataProviderService],
-  templateUrl: './videojuegos.component.html',
-  styleUrl: './videojuegos.component.css'
+  templateUrl: './funkos.component.html',
+  styleUrl: './funkos.component.css'
 })
-export class VideojuegosComponent {
+export class FunkosComponent {
   //simula el id del usuario logeado
   public userID: number = 1;
   //Atributo con el tipo de dato de la interfaz
@@ -41,7 +40,7 @@ export class VideojuegosComponent {
 
   getFilteredData() {
     this.page = 1; // Restablece la página a 1
-    this.dataProvider.getProductsByRangeAndType(this.minPrice, this.maxPrice, "videojuego").subscribe((response) => {
+    this.dataProvider.getProductsByRangeAndType(this.minPrice, this.maxPrice, "funko").subscribe((response) => {
       if (Array.isArray(response)) {
         let dataArray = (response as Producto[]);
         this.data = dataArray;
@@ -86,7 +85,7 @@ export class VideojuegosComponent {
     this.data.sort((a, b) => b.precio - a.precio);
   }
 
-  filterByGenre(genre: string){
+  filterByGenre(genre: string) {
     this.data = this.data.filter(producto => producto.detalles.includes(genre));
   }
 }

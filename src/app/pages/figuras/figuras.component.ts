@@ -12,16 +12,14 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { RouterLinkActive, RouterLink, Router } from '@angular/router';
 import { Carrito } from '../../interfaces/carrito';
 
-
 @Component({
-  selector: 'app-videojuegos',
+  selector: 'app-figuras',
   standalone: true,
   imports: [HttpClientModule, CommonModule, NgxPaginationModule, RouterLinkActive, RouterLink],
-  providers: [DataProviderService],
-  templateUrl: './videojuegos.component.html',
-  styleUrl: './videojuegos.component.css'
+  templateUrl: './figuras.component.html',
+  styleUrl: './figuras.component.css'
 })
-export class VideojuegosComponent {
+export class FigurasComponent {
   //simula el id del usuario logeado
   public userID: number = 1;
   //Atributo con el tipo de dato de la interfaz
@@ -31,17 +29,16 @@ export class VideojuegosComponent {
   minPrice?: number;
   maxPrice?: number;
   showDetails: boolean = false;
+  ngOnInit() {
+    this.getFilteredData();
+  }
   constructor(private dataProvider: DataProviderService, private router: Router) {
 
   }
 
-  ngOnInit() {
-    this.getFilteredData();
-  }
-
   getFilteredData() {
     this.page = 1; // Restablece la página a 1
-    this.dataProvider.getProductsByRangeAndType(this.minPrice, this.maxPrice, "videojuego").subscribe((response) => {
+    this.dataProvider.getProductsByRangeAndType(this.minPrice, this.maxPrice, "figura").subscribe((response) => {
       if (Array.isArray(response)) {
         let dataArray = (response as Producto[]);
         this.data = dataArray;
@@ -69,8 +66,7 @@ export class VideojuegosComponent {
   addCart() {
     console.log("Logica de Kevin Roldan");
     var productCart: Carrito =
-      { id: 1, usuario_id: this.userID, producto_id: this.selectedProduct.id, cantidad: 1 }
-      ;
+      { id: 1, usuario_id: this.userID, producto_id: this.selectedProduct.id, cantidad: 1 };
     this.dataProvider.addToCart(productCart);
     this.router.navigate(['/carrito']);
   }
@@ -86,7 +82,7 @@ export class VideojuegosComponent {
     this.data.sort((a, b) => b.precio - a.precio);
   }
 
-  filterByGenre(genre: string){
+  filterByGenre(genre: string) {
     this.data = this.data.filter(producto => producto.detalles.includes(genre));
   }
 }

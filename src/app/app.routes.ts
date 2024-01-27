@@ -1,18 +1,25 @@
 import { Routes } from '@angular/router';
-import { IndexComponent } from './pages/index/index.component';
-import { VideojuegosComponent } from './pages/videojuegos/videojuegos.component';
+
 import { CarritoComponent } from './pages/carrito/carrito.component';
 import { CajaComponent } from './pages/caja/caja.component';
 import { DatosPersonalesComponent } from './pages/caja/datos-personales/datos-personales.component';
 import { MetodoPagoComponent } from './pages/caja/metodo-pago/metodo-pago.component';
 import { ConfirmarCompraComponent } from './pages/caja/confirmar-compra/confirmar-compra.component';
 
+import { IndexComponent } from './pages/index/index.component';
+import { VideojuegosComponent } from './pages/videojuegos/videojuegos.component';
+import { FunkosComponent  } from './pages/funkos/funkos.component';
+import { FigurasComponent } from './pages/figuras/figuras.component';
+import { ConsolasComponent } from './pages/consolas/consolas.component';
 
 
 export const routes: Routes = [
     { path: '', component: IndexComponent },
     { path: 'videojuegos', component: VideojuegosComponent },
     { path: 'carrito', component: CarritoComponent },
+    { path: 'funkos', component: FunkosComponent },
+    { path: 'figuras', component: FigurasComponent},
+    { path: 'consolas', component: ConsolasComponent},
 
     {
         path: 'caja',
