@@ -40,7 +40,7 @@ justify-content: center;
   width: 100%;
 }
 .article_info img{
-  width: 150px;
+  width: 100px;
   padding: 20px;
 }
 .article_details {
@@ -78,4 +78,15 @@ padding: 8px 0;
 }
 .pay_data span{
   margin: 20px 0px;
+}
+.products{
+  height: 600px;
+  overflow: auto;
+  margin-bottom: 30px;
+  padding: 0 20px;
+}
+
+.info_span{
+  width: 250px;
+  word-wrap: break-word;
 }

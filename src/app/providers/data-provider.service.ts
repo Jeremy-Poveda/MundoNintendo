@@ -4,19 +4,26 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Producto } from '../interfaces/producto';
 
+import { HistorialCompras } from '../interfaces/historial-compras';
 import { Carrito } from '../interfaces/carrito';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DataProviderService {
   private URLProducts: string = 'http://localhost/api/products.php?';
   private URLCart: string = 'http://localhost/api/cart.php?';
+  private URLShoppingHistory: string =
+    'http://localhost/api/shoppingHistory.php?';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   // Obtener productos por rango de precio y/o tipo usando el API
-  getProductsByRangeAndType(minPrice?: number, maxPrice?: number, tipo?: string) {
+  getProductsByRangeAndType(
+    minPrice?: number,
+    maxPrice?: number,
+    tipo?: string
+  ) {
     let params = '';
 
     if (minPrice !== undefined && maxPrice !== undefined) {
@@ -34,23 +41,21 @@ export class DataProviderService {
     return this.http.get(this.URLProducts + 'findAll');
   }
 
-  getShoppingCart(userID:number){
+  getProductByID(productID: number) {
+    return this.http.get(this.URLProducts + `findByID=${productID}`);
+  }
+
+  getShoppingCart(userID: number) {
     return this.http.get(this.URLCart + `findShoppingCart=${userID}`);
   }
 
-  getProductByID(productID:number){
-    return this.http.get(this.URLProducts + `findByID=${productID}`);
-
-  }
-  
-  addToCart(productData:Carrito) {
+  addToCart(productData: Carrito) {
     const data = {
       usuario_id: productData.usuario_id,
       producto_id: productData.producto_id,
-      cantidad: productData.cantidad
+      cantidad: productData.cantidad,
     };
-    return this.http.post(this.URLCart, JSON.stringify(data))
-
+    return this.http.post(this.URLCart, JSON.stringify(data));
   }
 
   clearCart(userID: number): Observable<any> {
@@ -58,8 +63,11 @@ export class DataProviderService {
     return this.http.delete(url);
   }
 
-  updateCart(data:Carrito){
-    return this.http.put(this.URLCart,JSON.stringify(data));
+  updateCart(data: Carrito) {
+    return this.http.put(this.URLCart, JSON.stringify(data));
   }
-  
+
+  addShoppingHistory(data: HistorialCompras) {
+    return this.http.post(this.URLShoppingHistory, JSON.stringify(data));
+  }
 }

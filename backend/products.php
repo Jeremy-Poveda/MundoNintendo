@@ -18,7 +18,6 @@ $conexionBD = new mysqli($server, $user, $password, $database);
 if ($conexionBD->connect_error) {
     die("Conexión fallida: " . $conexionBD->connect_error);
 }
-
 // Consulta todos los items de la tabla solicitada de la base de datos.
 if (isset($_GET["findAll"])) {
     $sqlProductos = mysqli_query($conexionBD, "SELECT * FROM productos");

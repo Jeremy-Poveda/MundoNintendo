@@ -8,24 +8,31 @@
     </section>
     <section class="product_list">
       <div class="products">
-        <div class="article_info">
-          <img src="https://i.imgur.com/H5FTg3T.jpg" alt="img" />
-          <div class="article_details">
-            <span class="article_name">The Witcher 3: Wild Hunt</span>
-            <span class="article_type">Consola: Xbox One</span>
+        @for (prod of productshop; track $index) {
+
+          <div class="article_info">
+            <img src="{{getCorrespondingProduct(prod.producto_id)?.url_imagen}}" alt="img" />
+            <div class="article_details">
+              <span class="info_span article_name">{{getCorrespondingProduct(prod.producto_id)?.nombre}}</span>
+              <span class="info_span article_type">{{getCorrespondingProduct(prod.producto_id)?.detalles}}</span>
+            </div>
           </div>
-        </div>
+
+        }
+
+
+        
       </div>
       <div class="space_bar"></div>
       <div class="pay_data">
         <span>subtotal</span>
-        <span class="valorDolares">$23</span>
+        <span class="valorDolares">${{getSubtotal()}}</span>
+        <span>Iva</span>
+        <span class="valorDolares">${{getIVA()}}</span>
         <span>Descuento</span>
         <span class="valorDolares">$0</span>
         <span ><b>Total</b></span>
-        <span class="valorDolares">$454</span>
-
-
+        <span class="valorDolares">${{getTotal()}}</span>
       </div>
     </section>
 </main>

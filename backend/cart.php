@@ -22,6 +22,7 @@ if ($conexionBD->connect_error) {
 
 
 
+
 // Aporte Kevin Roldan
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
