@@ -71,10 +71,11 @@ section{
     position: absolute;
     text-align: center;
     color: black;
-    font-size: 24px;
+    font-size: 20px;
     font-family: 'Montserrat';
     font-weight: 800;
     word-wrap: break-word;
+    align-content: center;
   }
   
   .product-image {
@@ -97,7 +98,7 @@ section{
     position: absolute;
     text-align: center;
     color: #2c3032;
-    font-size: 24px;
+    font-size: 20px;
     font-family: 'Montserrat';
     font-weight: 800;
     word-wrap: break-word;

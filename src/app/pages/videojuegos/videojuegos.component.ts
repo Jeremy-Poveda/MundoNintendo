@@ -11,6 +11,7 @@ import { NgxPaginationModule } from "ngx-pagination";
 
 import { RouterLinkActive, RouterLink, Router } from '@angular/router';
 import { Carrito } from '../../interfaces/carrito';
+import { BusquedaService } from '../../services/busqueda.service';
 
 
 @Component({
@@ -26,16 +27,20 @@ export class VideojuegosComponent {
   public userID: number = 1;
   //Atributo con el tipo de dato de la interfaz
   public data: Producto[] = [];
+  public totalProducts: Producto[] = [];
   public page!: number;
   public selectedProduct!: Producto;
   minPrice?: number;
   maxPrice?: number;
   showDetails: boolean = false;
-  constructor(private dataProvider: DataProviderService, private router: Router) {
+  constructor(private dataProvider: DataProviderService, private router: Router, private busquedaService: BusquedaService) {
 
   }
 
   ngOnInit() {
+    this.busquedaService.searchResults$.subscribe((results) => {
+      this.data = results;
+    });
     this.getFilteredData();
   }
 
@@ -44,10 +49,10 @@ export class VideojuegosComponent {
     this.dataProvider.getProductsByRangeAndType(this.minPrice, this.maxPrice, "videojuego").subscribe((response) => {
       if (Array.isArray(response)) {
         let dataArray = (response as Producto[]);
-        this.data = dataArray;
+        this.data = this.totalProducts = dataArray;
         console.log(this.data);
       } else {
-        this.data = [];
+        this.data = this.totalProducts = [];
         console.log('La respuesta no es un array:', response);
       }
     });
@@ -94,6 +99,6 @@ export class VideojuegosComponent {
   }
 
   filterByGenre(genre: string){
-    this.data = this.data.filter(producto => producto.detalles.includes(genre));
+    this.data = this.totalProducts.filter(producto => producto.detalles.includes(genre));
   }
 }

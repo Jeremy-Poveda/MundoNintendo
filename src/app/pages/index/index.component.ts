@@ -64,8 +64,12 @@ export class IndexComponent {
     this.dataProvider.getAllProducts().subscribe((response) => {
       if (Array.isArray(response)) {
         let dataArray = response as Producto[];
-          this.bestSellers = dataArray.slice().sort((a, b) => a.precio - b.precio).slice(0, 4);
-          this.newProducts = dataArray.slice().sort((a, b) => a.cantidad - b.cantidad).slice(0, 4);
+          this.bestSellers = dataArray.slice().sort((a, b) => a.cantidad - b.cantidad).slice(0, 4);
+          this.newProducts = dataArray.slice().sort((a, b) => {
+                const fechaA = new Date(a.fecha_ingreso).getTime();
+                const fechaB = new Date(b.fecha_ingreso).getTime();
+                return fechaB - fechaA;
+            }).slice(0, 4);
   
         console.log(this.newProducts, this.bestSellers);
       } else {

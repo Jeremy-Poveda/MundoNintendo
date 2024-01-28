@@ -4,6 +4,10 @@ body {
     overflow-x: hidden;
 }
 
+button{
+  background: none;
+}
+
 .banner-div {
     width: 100%;
     height: 100vh;

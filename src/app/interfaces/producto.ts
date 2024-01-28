@@ -8,4 +8,5 @@ export interface Producto {
     tipo: string;
     genero: string;
     url_imagen: string;
+    fecha_ingreso: Date;
 }

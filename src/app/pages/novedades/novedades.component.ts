@@ -12,42 +12,60 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { RouterLinkActive, RouterLink, Router } from '@angular/router';
 import { Carrito } from '../../interfaces/carrito';
 import { BusquedaService } from '../../services/busqueda.service';
+
 @Component({
-  selector: 'app-figuras',
+  selector: 'app-novedades',
   standalone: true,
   imports: [HttpClientModule, CommonModule, NgxPaginationModule, RouterLinkActive, RouterLink],
-  templateUrl: './figuras.component.html',
-  styleUrl: './figuras.component.css'
+  providers: [DataProviderService],
+  templateUrl: './novedades.component.html',
+  styleUrl: './novedades.component.css'
 })
-export class FigurasComponent {
+export class NovedadesComponent {
   //simula el id del usuario logeado
   public userID: number = 1;
   //Atributo con el tipo de dato de la interfaz
   public data: Producto[] = [];
+  public totalProducts: Producto[] = [];
   public page!: number;
   public selectedProduct!: Producto;
   minPrice?: number;
   maxPrice?: number;
   showDetails: boolean = false;
+  constructor(private dataProvider: DataProviderService, private router: Router, private busquedaService: BusquedaService) {
+
+  }
+
   ngOnInit() {
     this.busquedaService.searchResults$.subscribe((results) => {
       this.data = results;
     });
     this.getFilteredData();
   }
-  constructor(private dataProvider: DataProviderService, private router: Router, private busquedaService: BusquedaService) {
-
-  }
 
   getFilteredData() {
     this.page = 1; // Restablece la página a 1
-    this.dataProvider.getProductsByRangeAndType(this.minPrice, this.maxPrice, "figura").subscribe((response) => {
+    this.dataProvider.getProductsByNews().subscribe((response) => {
       if (Array.isArray(response)) {
         let dataArray = (response as Producto[]);
-        this.data = dataArray;
+        this.data = this.totalProducts = dataArray;
         console.log(this.data);
       } else {
-        this.data = [];
+        this.data = this.totalProducts = [];
+        console.log('La respuesta no es un array:', response);
+      }
+    });
+  }
+
+  getFilteredPrice(){
+    this.page = 1; // Restablece la página a 1
+    this.dataProvider.getProductsByRangePrice(this.minPrice, this.maxPrice).subscribe((response) => {
+      if (Array.isArray(response)) {
+        let dataArray = (response as Producto[]);
+        this.data = this.totalProducts = dataArray;
+        console.log(this.data);
+      } else {
+        this.data = this.totalProducts = [];
         console.log('La respuesta no es un array:', response);
       }
     });
@@ -64,7 +82,7 @@ export class FigurasComponent {
   updatePriceRange(min: number, max: number) {
     this.minPrice = min;
     this.maxPrice = max;
-    this.getFilteredData();
+    this.getFilteredPrice();
   }
   addCart() {
     console.log("Logica de Kevin Roldan");
@@ -93,7 +111,7 @@ export class FigurasComponent {
     this.data.sort((a, b) => b.precio - a.precio);
   }
 
-  filterByGenre(genre: string) {
-    this.data = this.data.filter(producto => producto.detalles.includes(genre));
+  filterByGenre(genre: string){
+    this.data = this.totalProducts.filter(producto => producto.detalles.includes(genre));
   }
 }

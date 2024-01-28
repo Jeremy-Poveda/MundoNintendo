@@ -4,8 +4,10 @@
         <div id="text-logo"><p>Mundo magico del <span>Nintendo</span></p></div>
     </a>
     <div id="searcher">
-        <input type="text" placeholder="Busca tu producto">
-        <button type="button"><img src="../../../assets/img/search-icon.svg" alt="Buscar" width="100"></button>
+        <input #searchInput type="text" placeholder="Busca tu producto">
+        <button type="button" (click)="performSearch(searchInput.value)">
+            <img src="../../../assets/img/search-icon.svg" alt="Buscar" width="100">
+        </button>
     </div>
     <img class="cart_icon" src="../../../assets/img/shopping-cart-icon.svg" routerLink="/carrito" alt="Carrito de compras" width="30">
 </header>

@@ -32,14 +32,41 @@ if (isset($_GET["findAll"])) {
 }
 // Fin de aporte Jeremy Poveda
 
+// Aporte Jorge Mawyin
 
+// Obtener los productos con fecha de ingreso reciente
+if (isset($_GET["findByNews"])) {
+    $sqlProductos = mysqli_query($conexionBD, "SELECT * FROM productos ORDER BY fecha_ingreso DESC LIMIT 12");
+    if (mysqli_num_rows($sqlProductos) > 0) {
+        $productos = mysqli_fetch_all($sqlProductos, MYSQLI_ASSOC);
+        echo json_encode($productos);
+        exit();
+    } else {
+        // Código para indicar que no se pudo realizar la consulta.
+        echo json_encode(["success" => 0]);
+    }
+}
+
+// Obtener los productos más vendidos
+if (isset($_GET["findLeast"])) {
+    $sqlProductos = mysqli_query($conexionBD, "SELECT * FROM productos ORDER BY cantidad ASC LIMIT 12");
+    if (mysqli_num_rows($sqlProductos) > 0) {
+        $productos = mysqli_fetch_all($sqlProductos, MYSQLI_ASSOC);
+        echo json_encode($productos);
+        exit();
+    } else {
+        // Código para indicar que no se pudo realizar la consulta.
+        echo json_encode(["success" => 0]);
+    }
+}
+// Fin aporte jorge Mawyin
 
 // Aporte Kevin Roldan
 
 
 // Obtener productos por tipo y/o rango de precio
 
-if (isset($_GET["findByID"]) || isset($_GET["findByType"]) || isset($_GET["findByPriceRange"])) {
+if (isset($_GET["findByID"]) || isset($_GET["findByType"]) || isset($_GET["findByPriceRange"]) || isset($_GET["findByName"]) || isset($_GET["findByNew"])|| isset($_GET["findByLeast"])) {
     $sqlConditions = [];
 
     // Verificar si se está filtrando por tipo
@@ -57,6 +84,24 @@ if (isset($_GET["findByID"]) || isset($_GET["findByType"]) || isset($_GET["findB
     // Fin de aporte Kevin Roldán
 
     // Aporte Jorge Mawyin
+
+    // Verificar si se está filtrando por nombre
+    if (isset($_GET["findByName"])) {
+        $nombre = $_GET["findByName"];
+        $nombre = "%".$nombre."%";
+        $sqlConditions[] = "nombre LIKE '$nombre'";
+    }
+
+    // Verificar si se está filtrando por novedades
+    if (isset($_GET["findByNew"])){
+        $sqlConditions[] = "ORDER BY fecha_ingreso DESC LIMIT 12";
+    }
+
+    // Verificar si se está filtrando por novedades
+    if (isset($_GET["findByLeast"])){
+        $sqlConditions[] = "ORDER BY cantidad ASC LIMIT 12";
+    }
+
     // Verificar si se está filtrando por rango de precio
     if (isset($_GET["findByPriceRange"])) {
         $minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : null;
@@ -69,7 +114,11 @@ if (isset($_GET["findByID"]) || isset($_GET["findByType"]) || isset($_GET["findB
     $sqlQuery = "SELECT * FROM productos";
 
     if (!empty($sqlConditions)) {
-        $sqlQuery .= " WHERE " . implode(" AND ", $sqlConditions);
+        if(strpos(implode(" ", $sqlConditions), "ORDER") !== false){
+            $sqlQuery .= " WHERE " . implode(" ", $sqlConditions);
+        }else{
+            $sqlQuery .= " WHERE " . implode(" AND ", $sqlConditions);
+        }
     }
 
     // Ejecutar la consulta SQL

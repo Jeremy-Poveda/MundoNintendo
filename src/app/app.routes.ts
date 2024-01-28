@@ -5,7 +5,8 @@ import { CajaComponent } from './pages/caja/caja.component';
 import { DatosPersonalesComponent } from './pages/caja/datos-personales/datos-personales.component';
 import { MetodoPagoComponent } from './pages/caja/metodo-pago/metodo-pago.component';
 import { ConfirmarCompraComponent } from './pages/caja/confirmar-compra/confirmar-compra.component';
-
+import { NovedadesComponent } from './pages/novedades/novedades.component';
+import { MasVendidosComponent } from './pages/mas-vendidos/mas-vendidos.component';
 import { IndexComponent } from './pages/index/index.component';
 import { VideojuegosComponent } from './pages/videojuegos/videojuegos.component';
 import { FunkosComponent  } from './pages/funkos/funkos.component';
@@ -20,7 +21,8 @@ export const routes: Routes = [
     { path: 'funkos', component: FunkosComponent },
     { path: 'figuras', component: FigurasComponent},
     { path: 'consolas', component: ConsolasComponent},
-
+    { path: 'novedades', component: NovedadesComponent},
+    { path: 'vendidos', component: MasVendidosComponent},
     {
         path: 'caja',
         component: CajaComponent,

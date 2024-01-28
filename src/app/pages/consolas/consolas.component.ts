@@ -11,6 +11,7 @@ import { NgxPaginationModule } from "ngx-pagination";
 
 import { RouterLinkActive, RouterLink, Router } from '@angular/router';
 import { Carrito } from '../../interfaces/carrito';
+import { BusquedaService } from '../../services/busqueda.service';
 @Component({
   selector: 'app-consolas',
   standalone: true,
@@ -30,9 +31,12 @@ export class ConsolasComponent {
   showDetails: boolean = false;
 
   ngOnInit() {
+    this.busquedaService.searchResults$.subscribe((results) => {
+      this.data = results;
+    });
     this.getFilteredData();
   }
-  constructor(private dataProvider: DataProviderService, private router: Router) {
+  constructor(private dataProvider: DataProviderService, private router: Router, private busquedaService: BusquedaService) {
 
   }
 

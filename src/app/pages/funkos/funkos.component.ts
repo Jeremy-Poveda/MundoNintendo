@@ -11,7 +11,7 @@ import { NgxPaginationModule } from "ngx-pagination";
 
 import { RouterLinkActive, RouterLink, Router } from '@angular/router';
 import { Carrito } from '../../interfaces/carrito';
-
+import { BusquedaService } from '../../services/busqueda.service';
 
 @Component({
   selector: 'app-funkos',
@@ -30,11 +30,14 @@ export class FunkosComponent {
   minPrice?: number;
   maxPrice?: number;
   showDetails: boolean = false;
-  constructor(private dataProvider: DataProviderService, private router: Router) {
+  constructor(private dataProvider: DataProviderService, private router: Router, private busquedaService: BusquedaService) {
 
   }
 
   ngOnInit() {
+    this.busquedaService.searchResults$.subscribe((results) => {
+      this.data = results;
+    });
     this.getFilteredData();
   }
 

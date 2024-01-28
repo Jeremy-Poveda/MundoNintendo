@@ -70,4 +70,61 @@ export class DataProviderService {
   addShoppingHistory(data: HistorialCompras) {
     return this.http.post(this.URLShoppingHistory, JSON.stringify(data));
   }
+
+  getProductsByNameAndType(
+    name?: string,
+    tipo?: string
+  ){
+    let params = '';
+    if (name !== undefined) {
+      params += `&findByName=${name}`;
+    }
+    if (tipo !== undefined) {
+      params += `&findByType=${tipo}`;
+    }
+    return this.http.get(this.URLProducts + params);
+  }
+
+  getProductsByNews(){
+    return this.http.get(this.URLProducts + 'findByNews');
+  }
+
+  getProductsByNameAndNew(
+    name?: string,
+  ){
+    let params = '';
+    if (name !== undefined) {
+      params += `&findByName=${name}`;
+      params += `&findByNew`;
+    }
+    
+    return this.http.get(this.URLProducts + params);
+  }
+
+  getProductsLeast(){
+    return this.http.get(this.URLProducts + 'findLeast');
+  }
+
+  getProductsByNameAndLeast(
+    name?: string,
+  ){
+    let params = '';
+    if (name !== undefined) {
+      params += `&findByName=${name}`;
+      params += `&findByLeast`;
+    }
+    
+    return this.http.get(this.URLProducts + params);
+  }
+
+  getProductsByRangePrice(
+    minPrice?: number,
+    maxPrice?: number,
+  ) {
+    let params = '';
+    if (minPrice !== undefined && maxPrice !== undefined) {
+      params += `&findByPriceRange&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+    }
+    return this.http.get(this.URLProducts + params);
+  }
 }
