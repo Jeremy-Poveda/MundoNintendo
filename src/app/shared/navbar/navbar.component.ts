@@ -14,7 +14,6 @@ import { BusquedaService } from '../../services/busqueda.service';
 export class NavbarComponent {
 
   searchTerm: string = '';
-  searchResults: any[] = [];
   public data: Producto[] = [];
 
   constructor(private dataProviderService: DataProviderService, private router: Router, private busquedaService: BusquedaService) { }
@@ -95,7 +94,7 @@ export class NavbarComponent {
         this.busquedaService.updateSearchResults(this.data);
       });
     }else{
-      this.dataProviderService.getProductsByNameAndType(searchTerm, 'consola').subscribe((response) => {
+      this.dataProviderService.getProductsByName(searchTerm).subscribe((response) => {
         if (Array.isArray(response)) {
           let dataArray = (response as Producto[]);
           this.data = dataArray;
@@ -105,6 +104,7 @@ export class NavbarComponent {
           console.log('La respuesta no es un array:', response);
         }
         this.busquedaService.updateSearchResults(this.data);
+        this.router.navigate(['/busqueda']);
       });
     }
   }

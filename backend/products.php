@@ -92,6 +92,14 @@ if (isset($_GET["findByID"]) || isset($_GET["findByType"]) || isset($_GET["findB
         $sqlConditions[] = "nombre LIKE '$nombre'";
     }
 
+    // Verificar si se está filtrando por rango de precio
+    if (isset($_GET["findByPriceRange"])) {
+        $minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : null;
+        $maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : null;
+
+        $sqlConditions[] = "precio BETWEEN $minPrice AND $maxPrice";
+    }
+
     // Verificar si se está filtrando por novedades
     if (isset($_GET["findByNew"])){
         $sqlConditions[] = "ORDER BY fecha_ingreso DESC LIMIT 12";
@@ -100,14 +108,6 @@ if (isset($_GET["findByID"]) || isset($_GET["findByType"]) || isset($_GET["findB
     // Verificar si se está filtrando por novedades
     if (isset($_GET["findByLeast"])){
         $sqlConditions[] = "ORDER BY cantidad ASC LIMIT 12";
-    }
-
-    // Verificar si se está filtrando por rango de precio
-    if (isset($_GET["findByPriceRange"])) {
-        $minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : null;
-        $maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : null;
-
-        $sqlConditions[] = "precio BETWEEN $minPrice AND $maxPrice";
     }
 
     // Construir la consulta SQL con las condiciones

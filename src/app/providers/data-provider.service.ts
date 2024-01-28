@@ -127,4 +127,29 @@ export class DataProviderService {
     }
     return this.http.get(this.URLProducts + params);
   }
+
+  getProductsByName(
+    name?: string,
+  ){
+    let params = '';
+    if (name !== undefined) {
+      params += `&findByName=${name}`;
+    }
+    return this.http.get(this.URLProducts + params);
+  }
+
+  getProductsByRangeAndNew(
+    minPrice?: number,
+    maxPrice?: number,
+  ) {
+    let params = '';
+
+    if (minPrice !== undefined && maxPrice !== undefined) {
+      params += `&findByPriceRange&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+    }
+    params += `&findByNew`;
+
+
+    return this.http.get(this.URLProducts + params);
+  }
 }

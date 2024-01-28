@@ -14,14 +14,14 @@ import { Carrito } from '../../interfaces/carrito';
 import { BusquedaService } from '../../services/busqueda.service';
 
 @Component({
-  selector: 'app-novedades',
+  selector: 'app-busquedaproduct',
   standalone: true,
   imports: [HttpClientModule, CommonModule, NgxPaginationModule, RouterLinkActive, RouterLink],
   providers: [DataProviderService],
-  templateUrl: './novedades.component.html',
-  styleUrl: './novedades.component.css'
+  templateUrl: './busquedaproduct.component.html',
+  styleUrl: './busquedaproduct.component.css'
 })
-export class NovedadesComponent {
+export class BusquedaproductComponent {
   //simula el id del usuario logeado
   public userID: number = 1;
   //Atributo con el tipo de dato de la interfaz
@@ -40,34 +40,12 @@ export class NovedadesComponent {
     this.busquedaService.searchResults$.subscribe((results) => {
       this.data = results;
     });
-    this.getFilteredData();
   }
 
   getFilteredData() {
     this.page = 1; // Restablece la página a 1
-    this.dataProvider.getProductsByNews().subscribe((response) => {
-      if (Array.isArray(response)) {
-        let dataArray = (response as Producto[]);
-        this.data = this.totalProducts = dataArray;
-        console.log(this.data);
-      } else {
-        this.data = this.totalProducts = [];
-        console.log('La respuesta no es un array:', response);
-      }
-    });
-  }
-
-  getFilteredPrice(){
-    this.page = 1; // Restablece la página a 1
-    this.dataProvider.getProductsByRangeAndNew(this.minPrice, this.maxPrice).subscribe((response) => {
-      if (Array.isArray(response)) {
-        let dataArray = (response as Producto[]);
-        this.data = this.totalProducts = dataArray;
-        console.log(this.data);
-      } else {
-        this.data = this.totalProducts = [];
-        console.log('La respuesta no es un array:', response);
-      }
+    this.busquedaService.searchResults$.subscribe((results) => {
+      this.data = results;
     });
   }
 
@@ -80,10 +58,11 @@ export class NovedadesComponent {
   }
 
   updatePriceRange(min: number, max: number) {
-    this.minPrice = min;
-    this.maxPrice = max;
-    this.getFilteredPrice();
+    this.busquedaService.searchResults$.subscribe((results) => {
+      this.data = results.filter(producto => producto.precio >= min && producto.precio <= max);
+    });
   }
+
   addCart() {
     console.log("Logica de Kevin Roldan");
     var productCart: Carrito =
@@ -111,7 +90,10 @@ export class NovedadesComponent {
     this.data.sort((a, b) => b.precio - a.precio);
   }
 
-  filterByGenre(genre: string){
-    this.data = this.totalProducts.filter(producto => producto.detalles.includes(genre));
+  filterByGenre(genre: string) {
+    this.busquedaService.searchResults$.subscribe((results) => {
+      this.data = results.filter(producto => producto.detalles.includes(genre));
+    });
   }
+
 }

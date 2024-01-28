@@ -7,6 +7,7 @@ import { MetodoPagoComponent } from './pages/caja/metodo-pago/metodo-pago.compon
 import { ConfirmarCompraComponent } from './pages/caja/confirmar-compra/confirmar-compra.component';
 import { NovedadesComponent } from './pages/novedades/novedades.component';
 import { MasVendidosComponent } from './pages/mas-vendidos/mas-vendidos.component';
+import { BusquedaproductComponent } from './pages/busquedaproduct/busquedaproduct.component';
 import { IndexComponent } from './pages/index/index.component';
 import { VideojuegosComponent } from './pages/videojuegos/videojuegos.component';
 import { FunkosComponent  } from './pages/funkos/funkos.component';
@@ -23,6 +24,7 @@ export const routes: Routes = [
     { path: 'consolas', component: ConsolasComponent},
     { path: 'novedades', component: NovedadesComponent},
     { path: 'vendidos', component: MasVendidosComponent},
+    { path: 'busqueda', component: BusquedaproductComponent},
     {
         path: 'caja',
         component: CajaComponent,
