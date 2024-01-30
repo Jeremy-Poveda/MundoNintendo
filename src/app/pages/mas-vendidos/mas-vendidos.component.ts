@@ -45,21 +45,7 @@ ngOnInit() {
 
 getFilteredData() {
   this.page = 1; // Restablece la página a 1
-  this.dataProvider.getProductsLeast().subscribe((response) => {
-    if (Array.isArray(response)) {
-      let dataArray = (response as Producto[]);
-      this.data = this.totalProducts = dataArray;
-      console.log(this.data);
-    } else {
-      this.data = this.totalProducts = [];
-      console.log('La respuesta no es un array:', response);
-    }
-  });
-}
-
-getFilteredPrice(){
-  this.page = 1; // Restablece la página a 1
-  this.dataProvider.getProductsByRangePrice(this.minPrice, this.maxPrice).subscribe((response) => {
+  this.dataProvider.getProductsMostSold().subscribe((response) => {
     if (Array.isArray(response)) {
       let dataArray = (response as Producto[]);
       this.data = this.totalProducts = dataArray;
@@ -80,9 +66,7 @@ closeDetails() {
 }
 
 updatePriceRange(min: number, max: number) {
-  this.minPrice = min;
-  this.maxPrice = max;
-  this.getFilteredPrice();
+  this.data = this.totalProducts.filter(producto => producto.precio >= min && producto.precio <= max);
 }
 addCart() {
   console.log("Logica de Kevin Roldan");

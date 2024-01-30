@@ -34,6 +34,46 @@ if (isset($_GET["findAll"])) {
 
 // Aporte Jorge Mawyin
 
+// Obtener lista de productos más vendidos
+if (isset($_GET["findMostSold"])) {
+    $sqlQuery = "
+        SELECT
+            p.id AS id,
+            p.nombre AS nombre,
+            p.descripcion,
+            p.precio,
+            p.detalles,
+            p.cantidad AS cantidad,
+            p.tipo,
+            p.url_imagen,
+            p.fecha_ingreso,
+            SUM(hc.cantidad) AS total_vendido
+        FROM
+            productos p
+        JOIN
+            historial_compras hc ON p.id = hc.producto_id
+        GROUP BY
+            p.id
+        ORDER BY
+            total_vendido DESC";
+
+    $result = mysqli_query($conexionBD, $sqlQuery);
+    $productos = $result ? mysqli_fetch_all($result, MYSQLI_ASSOC) : [];
+    if (count($productos) < 4) {
+        $sqlProductos = mysqli_query($conexionBD, "SELECT * FROM productos ORDER BY cantidad ASC LIMIT 12");
+    if (mysqli_num_rows($sqlProductos) > 0) {
+        $productos = mysqli_fetch_all($sqlProductos, MYSQLI_ASSOC);
+        echo json_encode($productos);
+        exit();
+    } else {
+        // Código para indicar que no se pudo realizar la consulta.
+        echo json_encode(["success" => 0]);
+    }
+    }
+    echo json_encode($productos ?: ["success" => 0, "message" => "No se encontraron productos más vendidos."]);
+    exit();
+}
+
 // Obtener los productos con fecha de ingreso reciente
 if (isset($_GET["findByNews"])) {
     $sqlProductos = mysqli_query($conexionBD, "SELECT * FROM productos ORDER BY fecha_ingreso DESC LIMIT 12");

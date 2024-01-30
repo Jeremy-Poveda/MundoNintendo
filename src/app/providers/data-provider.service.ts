@@ -101,8 +101,8 @@ export class DataProviderService {
     return this.http.get(this.URLProducts + params);
   }
 
-  getProductsLeast(){
-    return this.http.get(this.URLProducts + 'findLeast');
+  getProductsMostSold(){
+    return this.http.get(this.URLProducts + 'findMostSold');
   }
 
   getProductsByNameAndLeast(

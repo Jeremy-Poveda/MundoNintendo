@@ -3,7 +3,7 @@
         <div class="header">LO MÁS VENDIDO</div>
         <div class="view-more"><a routerLink="/vendidos">Ver más</a></div>
         <div class="product-list">
-            <div *ngFor="let product of bestSellers" class="product-item">
+            <div *ngFor="let product of bestSellers" class="product-item" (click)="openDetails(product)">
                 <div class="product-bg"></div>
                 <div class="price">{{ product.precio | currency: 'USD' }}</div>
                 <img [src]="product.url_imagen" [alt]="product.nombre" class="product-image" />
@@ -18,7 +18,7 @@
         <div class="header">NOVEDADES</div>
         <div class="view-more"><a routerLink="/novedades">Ver más</a></div>
         <div class="product-list">
-            <div *ngFor="let product of newProducts" class="product-item">
+            <div *ngFor="let product of newProducts" class="product-item" (click)="openDetails(product)">
                 <div class="product-bg"></div>
                 <div class="price">{{ product.precio | currency: 'USD' }}</div>
                 <img [src]="product.url_imagen" [alt]="product.nombre" class="product-image" />
@@ -47,3 +47,20 @@
         </div>
     </div>
 </section>
+
+<div class="details" *ngIf="showDetails && selectedProduct !== undefined">
+    <div class="details-container">
+        <img id="img-detalles" src="{{selectedProduct.url_imagen}}">
+        <p id="nombre-text">{{selectedProduct.nombre}}</p>
+        <p id="desc-text">{{selectedProduct.descripcion}}</p>
+        <p id="precio-text">Precio unitario: ${{selectedProduct.precio}}</p>
+        <h2> Detalles </h2>
+        <div *ngFor="let detalle of (selectedProduct.detalles.split(',') || [])">
+            <p id="detalles-text">{{detalle.trim()}}</p>
+        </div>
+        <button id="addToCart-detalles" (click)="addCart()"  >
+            <img id="cart-icon-detalles" src="../../../assets/img/white-add-cart-icon.png">
+            AGREGAR AL CARRITO</button>
+        <button id="closeButton-detalles" (click)="closeDetails()">X</button>
+    </div>
+</div>

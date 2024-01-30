@@ -57,20 +57,6 @@ export class NovedadesComponent {
     });
   }
 
-  getFilteredPrice(){
-    this.page = 1; // Restablece la página a 1
-    this.dataProvider.getProductsByRangeAndNew(this.minPrice, this.maxPrice).subscribe((response) => {
-      if (Array.isArray(response)) {
-        let dataArray = (response as Producto[]);
-        this.data = this.totalProducts = dataArray;
-        console.log(this.data);
-      } else {
-        this.data = this.totalProducts = [];
-        console.log('La respuesta no es un array:', response);
-      }
-    });
-  }
-
   openDetails(producto: Producto) {
     this.showDetails = true;
     this.selectedProduct = producto;
@@ -80,9 +66,7 @@ export class NovedadesComponent {
   }
 
   updatePriceRange(min: number, max: number) {
-    this.minPrice = min;
-    this.maxPrice = max;
-    this.getFilteredPrice();
+    this.data = this.totalProducts.filter(producto => producto.precio >= min && producto.precio <= max);
   }
   addCart() {
     console.log("Logica de Kevin Roldan");
