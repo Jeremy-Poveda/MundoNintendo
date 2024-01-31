@@ -23,6 +23,7 @@ export class CarritoComponent {
 
   //simula el id del usuario logeado
   public userID: number = 1;
+isCartEmpty: boolean=true;
 
   constructor(
     private dataProvider: DataProviderService,
@@ -32,16 +33,19 @@ export class CarritoComponent {
     this.dataProvider.getShoppingCart(this.userID).subscribe((cartResponse) => {
       this.productshop = cartResponse as Carrito[];
 
-      const productObservables = this.productshop.map((cart) => {
-        return this.dataProvider.getProductByID(cart.producto_id);
-      });
-
-      forkJoin(productObservables).subscribe((productResponses) => {
-        this.products = productResponses.map((response) => {
-          var res = response as Producto[];
-          return res[0];
+      if (this.productshop && this.productshop.length > 0) {
+        this.isCartEmpty = false;
+        const productObservables = this.productshop.map((cart) => {
+          return this.dataProvider.getProductByID(cart.producto_id);
         });
-      });
+
+        forkJoin(productObservables).subscribe((productResponses) => {
+          this.products = productResponses.map((response) => {
+            var res = response as Producto[];
+            return res[0];
+          });
+        });
+      }
     });
   }
   getCorrespondingProduct(productID: number): Producto | undefined {

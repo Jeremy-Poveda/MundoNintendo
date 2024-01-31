@@ -45,6 +45,6 @@
 
   <div class="buttons">
     <button id="keepBuying" (click)="keepBuying()" >Seguir Comprando</button>
-    <button id="goToCheckout" (click)="goToCheckout()">Ir a La Caja</button>
+    <button id="goToCheckout" [disabled]="isCartEmpty" [style.cursor]="isCartEmpty ? 'not-allowed' : 'pointer'" (click)="goToCheckout()">Ir a La Caja</button>
   </div>
 </main>
