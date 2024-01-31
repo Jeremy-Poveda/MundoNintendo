@@ -14,12 +14,13 @@ import { CarritoComponent } from './pages/carrito/carrito.component';
 import { NovedadesComponent } from './pages/novedades/novedades.component';
 import { MasVendidosComponent } from './pages/mas-vendidos/mas-vendidos.component';
 import { BusquedaproductComponent } from './pages/busquedaproduct/busquedaproduct.component';
+import { NoticiasComponent } from './pages/noticias/noticias.component';
 import { DatosPersonalesComponent } from './pages/caja/datos-personales/datos-personales.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HttpClientModule,CommonModule, RouterOutlet, IndexComponent, VideojuegosComponent,CarritoComponent, NavbarComponent, FooterComponent, BannerComponent,NovedadesComponent,MasVendidosComponent,BusquedaproductComponent,DatosPersonalesComponent],
+  imports: [HttpClientModule,CommonModule, RouterOutlet, IndexComponent, VideojuegosComponent,CarritoComponent, NavbarComponent, FooterComponent, BannerComponent,NovedadesComponent,MasVendidosComponent,BusquedaproductComponent,NoticiasComponent,DatosPersonalesComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

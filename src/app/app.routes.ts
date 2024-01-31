@@ -8,6 +8,7 @@ import { ConfirmarCompraComponent } from './pages/caja/confirmar-compra/confirma
 import { NovedadesComponent } from './pages/novedades/novedades.component';
 import { MasVendidosComponent } from './pages/mas-vendidos/mas-vendidos.component';
 import { BusquedaproductComponent } from './pages/busquedaproduct/busquedaproduct.component';
+import { NoticiasComponent } from './pages/noticias/noticias.component';
 import { IndexComponent } from './pages/index/index.component';
 import { VideojuegosComponent } from './pages/videojuegos/videojuegos.component';
 import { FunkosComponent  } from './pages/funkos/funkos.component';
@@ -25,6 +26,7 @@ export const routes: Routes = [
     { path: 'novedades', component: NovedadesComponent},
     { path: 'vendidos', component: MasVendidosComponent},
     { path: 'busqueda', component: BusquedaproductComponent},
+    { path: 'noticias', component: NoticiasComponent},
     {
         path: 'caja',
         component: CajaComponent,
