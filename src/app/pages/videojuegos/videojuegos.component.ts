@@ -1,26 +1,31 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'
+import { CommonModule } from '@angular/common';
 //Importación de la interfaz
 import { Producto } from '../../interfaces/producto';
 
 //Importación del servicio
-import { DataProviderService } from '../../providers/data-provider.service'
+import { DataProviderService } from '../../providers/data-provider.service';
 import { HttpClientModule } from '@angular/common/http';
 
-import { NgxPaginationModule } from "ngx-pagination";
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { RouterLinkActive, RouterLink, Router } from '@angular/router';
 import { Carrito } from '../../interfaces/carrito';
 import { BusquedaService } from '../../services/busqueda.service';
 
-
 @Component({
   selector: 'app-videojuegos',
   standalone: true,
-  imports: [HttpClientModule, CommonModule, NgxPaginationModule, RouterLinkActive, RouterLink],
+  imports: [
+    HttpClientModule,
+    CommonModule,
+    NgxPaginationModule,
+    RouterLinkActive,
+    RouterLink,
+  ],
   providers: [DataProviderService],
   templateUrl: './videojuegos.component.html',
-  styleUrl: './videojuegos.component.css'
+  styleUrl: './videojuegos.component.css',
 })
 export class VideojuegosComponent {
   //simula el id del usuario logeado
@@ -33,9 +38,11 @@ export class VideojuegosComponent {
   minPrice?: number;
   maxPrice?: number;
   showDetails: boolean = false;
-  constructor(private dataProvider: DataProviderService, private router: Router, private busquedaService: BusquedaService) {
-
-  }
+  constructor(
+    private dataProvider: DataProviderService,
+    private router: Router,
+    private busquedaService: BusquedaService
+  ) {}
 
   ngOnInit() {
     this.busquedaService.searchResults$.subscribe((results) => {
@@ -46,16 +53,17 @@ export class VideojuegosComponent {
 
   getFilteredData() {
     this.page = 1; // Restablece la página a 1
-    this.dataProvider.getProductsByRangeAndType(this.minPrice, this.maxPrice, "videojuego").subscribe((response) => {
-      if (Array.isArray(response)) {
-        let dataArray = (response as Producto[]);
-        this.data = this.totalProducts = dataArray;
-        console.log(this.data);
-      } else {
-        this.data = this.totalProducts = [];
-        console.log('La respuesta no es un array:', response);
-      }
-    });
+    this.dataProvider
+      .getProductsByRangeAndType(this.minPrice, this.maxPrice, 'videojuego')
+      .subscribe((response) => {
+        if (Array.isArray(response)) {
+          let dataArray = response as Producto[];
+          this.data = this.totalProducts = dataArray;
+        } else {
+          this.data = this.totalProducts = [];
+          console.log('La respuesta no es un array:', response);
+        }
+      });
   }
 
   openDetails(producto: Producto) {
@@ -72,10 +80,12 @@ export class VideojuegosComponent {
     this.getFilteredData();
   }
   addCart() {
-    console.log("Logica de Kevin Roldan");
-    var productCart: Carrito =
-      { id: 1, usuario_id: this.userID, producto_id: this.selectedProduct.id, cantidad: 1 }
-      ;
+    var productCart: Carrito = {
+      id: 1,
+      usuario_id: this.userID,
+      producto_id: this.selectedProduct.id,
+      cantidad: 1,
+    };
     this.dataProvider.addToCart(productCart).subscribe(
       (response: any) => {
         console.log(response);
@@ -87,7 +97,6 @@ export class VideojuegosComponent {
     );
   }
 
-
   sortByPriceAscending() {
     this.page = 1; // Restablece la página a 1
     this.data.sort((a, b) => a.precio - b.precio);
@@ -98,7 +107,9 @@ export class VideojuegosComponent {
     this.data.sort((a, b) => b.precio - a.precio);
   }
 
-  filterByGenre(genre: string){
-    this.data = this.totalProducts.filter(producto => producto.detalles.includes(genre));
+  filterByGenre(genre: string) {
+    this.data = this.totalProducts.filter((producto) =>
+      producto.detalles.includes(genre)
+    );
   }
 }

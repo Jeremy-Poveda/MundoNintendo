@@ -32,15 +32,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $producto_id = intval($data['producto_id']);
     $cantidad = intval($data['cantidad']);
 
+    // Consulta de seleccion
+    $existingRecordQuery = "SELECT * FROM carrito WHERE producto_id = $producto_id AND usuario_id = $usuario_id";
+    $existingRecordResult = mysqli_query($conexionBD, $existingRecordQuery);
 
-    // Consulta de inserción
-    $insertQuery = "INSERT INTO carrito (usuario_id, producto_id, cantidad)
-VALUES ($usuario_id, $producto_id, $cantidad)";
-
-    if (mysqli_query($conexionBD, $insertQuery)) {
-        echo json_encode(["success" => 1, "message" => "Datos agregados correctamente al carrito"]);
+    if (mysqli_num_rows($existingRecordResult) > 0) {
+        // Si existe, actualizar la cantidad
+        $updateQuery = "UPDATE carrito SET cantidad = cantidad + $cantidad WHERE producto_id = $producto_id AND usuario_id = $usuario_id";
+        if (mysqli_query($conexionBD, $updateQuery)) {
+            echo json_encode(["success" => 1, "message" => "Cantidad actualizada correctamente"]);
+        } else {
+            echo json_encode(["success" => 0, "message" => "Error al actualizar cantidad"]);
+        }
     } else {
-        echo json_encode(["success" => 0, "message" => "Error al agregar datos al carrito"]);
+        // Si no existe, realizar la inserción
+        $insertQuery = "INSERT INTO carrito (usuario_id, producto_id, cantidad) VALUES ($usuario_id, $producto_id, $cantidad)";
+        if (mysqli_query($conexionBD, $insertQuery)) {
+            echo json_encode(["success" => 1, "message" => "Datos agregados correctamente al carrito"]);
+        } else {
+            echo json_encode(["success" => 0, "message" => "Error al agregar datos al carrito"]);
+        }
     }
 }
 

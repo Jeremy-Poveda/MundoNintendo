@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'
+import { CommonModule } from '@angular/common';
 //Importación de la interfaz
 import { Producto } from '../../interfaces/producto';
 
 //Importación del servicio
-import { DataProviderService } from '../../providers/data-provider.service'
+import { DataProviderService } from '../../providers/data-provider.service';
 import { HttpClientModule } from '@angular/common/http';
 
-import { NgxPaginationModule } from "ngx-pagination";
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { RouterLinkActive, RouterLink, Router } from '@angular/router';
 import { Carrito } from '../../interfaces/carrito';
@@ -15,9 +15,15 @@ import { BusquedaService } from '../../services/busqueda.service';
 @Component({
   selector: 'app-figuras',
   standalone: true,
-  imports: [HttpClientModule, CommonModule, NgxPaginationModule, RouterLinkActive, RouterLink],
+  imports: [
+    HttpClientModule,
+    CommonModule,
+    NgxPaginationModule,
+    RouterLinkActive,
+    RouterLink,
+  ],
   templateUrl: './figuras.component.html',
-  styleUrl: './figuras.component.css'
+  styleUrl: './figuras.component.css',
 })
 export class FigurasComponent {
   //simula el id del usuario logeado
@@ -35,22 +41,25 @@ export class FigurasComponent {
     });
     this.getFilteredData();
   }
-  constructor(private dataProvider: DataProviderService, private router: Router, private busquedaService: BusquedaService) {
-
-  }
+  constructor(
+    private dataProvider: DataProviderService,
+    private router: Router,
+    private busquedaService: BusquedaService
+  ) {}
 
   getFilteredData() {
     this.page = 1; // Restablece la página a 1
-    this.dataProvider.getProductsByRangeAndType(this.minPrice, this.maxPrice, "figura").subscribe((response) => {
-      if (Array.isArray(response)) {
-        let dataArray = (response as Producto[]);
-        this.data = dataArray;
-        console.log(this.data);
-      } else {
-        this.data = [];
-        console.log('La respuesta no es un array:', response);
-      }
-    });
+    this.dataProvider
+      .getProductsByRangeAndType(this.minPrice, this.maxPrice, 'figura')
+      .subscribe((response) => {
+        if (Array.isArray(response)) {
+          let dataArray = response as Producto[];
+          this.data = dataArray;
+        } else {
+          this.data = [];
+          console.log('La respuesta no es un array:', response);
+        }
+      });
   }
 
   openDetails(producto: Producto) {
@@ -67,10 +76,12 @@ export class FigurasComponent {
     this.getFilteredData();
   }
   addCart() {
-    console.log("Logica de Kevin Roldan");
-    var productCart: Carrito =
-      { id: 1, usuario_id: this.userID, producto_id: this.selectedProduct.id, cantidad: 1 }
-      ;
+    var productCart: Carrito = {
+      id: 1,
+      usuario_id: this.userID,
+      producto_id: this.selectedProduct.id,
+      cantidad: 1,
+    };
     this.dataProvider.addToCart(productCart).subscribe(
       (response: any) => {
         console.log(response);
@@ -81,7 +92,6 @@ export class FigurasComponent {
       }
     );
   }
-
 
   sortByPriceAscending() {
     this.page = 1; // Restablece la página a 1
@@ -94,6 +104,8 @@ export class FigurasComponent {
   }
 
   filterByGenre(genre: string) {
-    this.data = this.data.filter(producto => producto.detalles.includes(genre));
+    this.data = this.data.filter((producto) =>
+      producto.detalles.includes(genre)
+    );
   }
 }

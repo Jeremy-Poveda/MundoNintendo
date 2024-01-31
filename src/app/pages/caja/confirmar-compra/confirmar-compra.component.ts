@@ -38,7 +38,6 @@ export class ConfirmarCompraComponent {
           var res = response as Producto[];
           return res[0];
         });
-        //  console.log(this.products);
       });
     });
   }
@@ -71,9 +70,6 @@ export class ConfirmarCompraComponent {
   makePurchase() {
     this.openSnackBar('Su compra fue realizada exitosamennte', 'cerrar');
     this.dataProvider.clearCart(this.userID).subscribe(
-      (response) => {
-        console.log(response);
-      },
       (error) => {
         console.error(error);
       }
@@ -90,9 +86,7 @@ export class ConfirmarCompraComponent {
       };
 
 
-      this.dataProvider.addShoppingHistory(historyData).subscribe((response) => {
-        console.log(response);
-      },
+      this.dataProvider.addShoppingHistory(historyData).subscribe(
       (error) => {
         console.error(error);
       })

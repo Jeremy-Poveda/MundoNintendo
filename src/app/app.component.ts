@@ -29,7 +29,6 @@ export class AppComponent {
   isIndexPage: boolean;
 
   constructor(private router: Router) {
-    console.log(this.router.url)
     this.isIndexPage = this.router.url === '/';
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {

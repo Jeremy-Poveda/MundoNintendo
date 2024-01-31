@@ -42,7 +42,6 @@ export class CajaComponent {
           var res = response as Producto[];
           return res[0];
         });
-        //  console.log(this.products);
       });
     });
   }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Location } from '@angular/common';
 //Importación del servicio
 import { DataProviderService } from '../../providers/data-provider.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -25,7 +26,8 @@ export class CarritoComponent {
 
   constructor(
     private dataProvider: DataProviderService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {
     this.dataProvider.getShoppingCart(this.userID).subscribe((cartResponse) => {
       this.productshop = cartResponse as Carrito[];
@@ -39,7 +41,6 @@ export class CarritoComponent {
           var res = response as Producto[];
           return res[0];
         });
-        //  console.log(this.products);
       });
     });
   }
@@ -72,18 +73,14 @@ export class CarritoComponent {
 
   goToCheckout() {
     this.productshop?.map((cart) =>
-      this.dataProvider.updateCart(cart).subscribe((cartResponse) => {
-        console.log(cartResponse);
-      })
+      this.dataProvider.updateCart(cart).subscribe()
     );
     this.router.navigate(['/caja']);
   }
   keepBuying() {
     this.productshop?.map((cart) =>
-      this.dataProvider.updateCart(cart).subscribe((cartResponse) => {
-        console.log(cartResponse);
-      })
+      this.dataProvider.updateCart(cart).subscribe()
     );
-    this.router.navigate(['/videojuegos']);
+    this.location.back(); 
   }
 }
